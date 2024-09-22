@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  redis-cluster:
+    image: 'bitnami/redis-cluster:latest'
+    environment:
+      - REDIS_NODES=3
+      - REDIS_PASSWORD=your_password
+    ports:
+      - '6379:6379'
+      - '16379:16379' # Redis cluster port
+    volumes:
+      - redis_data:/bitnami/redis
+
+volumes:
+  redis_data:
+    driver: local
