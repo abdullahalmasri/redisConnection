@@ -22,3 +22,21 @@ This project demonstrates how to implement a Singleton Redis connection using th
 ```bash
 git clone https://github.com/your-username/redis-vertx-singleton.git
 cd redis-vertx-singleton
+```
+General Approach
+
+    Classes with Vert.x Context:
+        These classes can use Vertx directly to interact with Redis using Future and AsyncResult because they already have an event loop.
+        For these classes, you pass the RedisAPI or the singleton RedisServiceImpl instance from the Vert.x context.
+
+    Classes Without Vert.x Context:
+        For non-Vert.x classes, you’ll still use the same Redis Singleton instance (RedisServiceImpl). However, instead of using Future, you can use blocking Redis operations or adapt asynchronous calls with CompletableFuture to handle results in a non-Vert.x context.
+
+
+Summary:
+
+    Classes with Vert.x: Use Future-based Redis operations.
+    Classes without Vert.x: Use CompletableFuture-based Redis operations, either blocking or non-blocking.
+    The Singleton Redis instance (RedisServiceImpl) can be shared across all classes, ensuring a single Redis connection is used in both Vert.x and non-Vert.x contexts.
+
+This approach keeps Redis management centralized and efficient, regardless of whether your classes use Vert.x or not.
